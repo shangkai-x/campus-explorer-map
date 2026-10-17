@@ -5,6 +5,8 @@ import * as maplibregl from "maplibre-gl";
 import type { GeoJSONSource, MapMouseEvent, ErrorEvent } from "maplibre-gl";
 import type { FeatureCollection, Point } from "geojson";
 import "maplibre-gl/dist/maplibre-gl.css";
+import workerUrl from "maplibre-gl/dist/maplibre-gl-worker.mjs?url";
+maplibregl.setWorkerUrl(workerUrl);
 import { Plus, Minus, LocateFixed, Loader2, AlertTriangle } from "lucide-react";
 import { CATEGORIES, DEFAULT_ZOOM, DURHAM_CENTER, type Place } from "@/data/places";
 
