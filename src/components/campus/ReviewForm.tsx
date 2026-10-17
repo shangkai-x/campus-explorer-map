@@ -53,16 +53,16 @@ export function ReviewForm({ place, onClose, onSubmitted }: { place: Place; onCl
               </button>
             ))}
           </div>
-          {errors.rating && <p className="mt-1 text-xs text-destructive">{errors.rating}</p>}
+          {errors["rating"] && <p className="mt-1 text-xs text-destructive">{errors["rating"]}</p>}
         </fieldset>
 
         <label className="mb-3 block text-sm font-semibold">Title *
           <input className={`${field} mt-1.5 font-normal`} value={title} onChange={(e) => setTitle(e.target.value)} maxLength={80} placeholder="e.g. Best £4 lunch near campus" />
-          {errors.title && <span className="mt-1 block text-xs font-normal text-destructive">{errors.title}</span>}
+          {errors["title"] && <span className="mt-1 block text-xs font-normal text-destructive">{errors["title"]}</span>}
         </label>
         <label className="mb-3 block text-sm font-semibold">Your review *
           <textarea className={`${field} mt-1.5 min-h-28 font-normal`} value={text} onChange={(e) => setText(e.target.value)} maxLength={1000} placeholder="What should other students know?" />
-          {errors.text && <span className="mt-1 block text-xs font-normal text-destructive">{errors.text}</span>}
+          {errors["text"] && <span className="mt-1 block text-xs font-normal text-destructive">{errors["text"]}</span>}
         </label>
         <label className="mb-3 block text-sm font-semibold">Hashtags
           <input className={`${field} mt-1.5 font-normal`} value={tags} onChange={(e) => setTags(e.target.value)} placeholder="#CheapEats #FreeWiFi" />

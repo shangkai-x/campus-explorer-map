@@ -50,9 +50,9 @@ export function useReviews() {
 
 export function validateReview(r: Partial<NewReview>) {
   const errors: Record<string, string> = {};
-  if (!r.rating || r.rating < 1 || r.rating > 5) errors.rating = "Choose a rating from 1 to 5 stars.";
-  if (!r.title?.trim()) errors.title = "Add a short title.";
-  if (!r.text?.trim() || r.text.trim().length < 10) errors.text = "Write at least 10 characters.";
+  if (!r.rating || r.rating < 1 || r.rating > 5) errors["rating"] = "Choose a rating from 1 to 5 stars.";
+  if (!r.title?.trim()) errors["title"] = "Add a short title.";
+  if (!r.text?.trim() || r.text.trim().length < 10) errors["text"] = "Write at least 10 characters.";
   return errors;
 }
 

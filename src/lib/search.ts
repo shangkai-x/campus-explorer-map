@@ -34,7 +34,7 @@ export function searchPlaces(places: Place[], query: string, category: CategoryI
 
   const price = q.match(/(?:under|below|less than|<)\s*£?\s*(\d+(?:\.\d+)?)/);
   if (price) {
-    const max = parseFloat(price[1]);
+    const max = parseFloat(price[1] ?? "0");
     list = list.filter((p) => p.typicalPrice !== undefined && p.typicalPrice <= max);
   }
   const rest = q.replace(/(?:under|below|less than|<)\s*£?\s*\d+(?:\.\d+)?/, " ");
