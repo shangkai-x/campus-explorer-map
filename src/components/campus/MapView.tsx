@@ -132,7 +132,7 @@ export default function MapView({ places, selectedId, onSelect, focus }: Props) 
 
   return (
     <div className="absolute inset-0">
-      <div ref={container} className="absolute inset-0" aria-label="Map of places around Durham University" role="region" />
+      <div ref={container} className="h-full w-full" aria-label="Map of places around Durham University" role="region" />
       {status === "loading" && (
         <div className="absolute inset-0 grid place-items-center bg-background/70 backdrop-blur-sm">
           <div className="flex items-center gap-2 rounded-full bg-card px-4 py-2 text-sm shadow-[var(--shadow-float)]">
