@@ -7,7 +7,7 @@ export interface Review {
   title: string;
   text: string;
   hashtags: string[];
-  photoUrl?: string;
+  photoUrl?: string | undefined;
   createdAt: number;
   isPrototype: true;
 }

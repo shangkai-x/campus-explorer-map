@@ -1,12 +1,14 @@
 import { useEffect, useRef, useState } from "react";
 import { createElement } from "react";
 import { renderToStaticMarkup } from "react-dom/server";
-import maplibregl, { type GeoJSONSource } from "maplibre-gl";
+import * as maplibregl from "maplibre-gl";
+import type { GeoJSONSource, MapMouseEvent, ErrorEvent } from "maplibre-gl";
+import type { FeatureCollection, Point } from "geojson";
 import "maplibre-gl/dist/maplibre-gl.css";
 import { Plus, Minus, LocateFixed, Loader2, AlertTriangle } from "lucide-react";
 import { CATEGORIES, DEFAULT_ZOOM, DURHAM_CENTER, type Place } from "@/data/places";
 
-const STYLE_URL = import.meta.env.VITE_MAP_STYLE_URL || "https://tiles.openfreemap.org/styles/positron";
+const STYLE_URL = import.meta.env["VITE_MAP_STYLE_URL"] || "https://tiles.openfreemap.org/styles/positron";
 
 const iconCache: Record<string, string> = {};
 function iconSvg(cat: Place["category"]) {
@@ -46,7 +48,7 @@ export default function MapView({ places, selectedId, onSelect, focus }: Props) 
     mapRef.current = map;
     const timeout = setTimeout(() => !map.loaded() && setStatus((s) => (s === "loading" ? "error" : s)), 15000);
 
-    map.on("error", (e) => {
+    map.on("error", (e: ErrorEvent) => {
       if (!map.isStyleLoaded() && /style|fetch/i.test(String(e.error?.message))) setStatus("error");
     });
 
@@ -60,17 +62,17 @@ export default function MapView({ places, selectedId, onSelect, focus }: Props) 
       map.addLayer({ id: "cluster-count", type: "symbol", source: "places", filter: ["has", "point_count"],
         layout: { "text-field": ["get", "point_count_abbreviated"], "text-size": 13, "text-font": ["Noto Sans Bold"] },
         paint: { "text-color": "#fff" } });
-      map.on("click", "clusters", async (e) => {
+      map.on("click", "clusters", async (e: MapMouseEvent) => {
         const f = map.queryRenderedFeatures(e.point, { layers: ["clusters"] })[0];
         if (!f) return;
         const zoom = await (map.getSource("places") as GeoJSONSource).getClusterExpansionZoom(f.properties.cluster_id);
-        map.easeTo({ center: (f.geometry as GeoJSON.Point).coordinates as [number, number], zoom: zoom + 0.3, duration: 500 });
+        map.easeTo({ center: (f.geometry as Point).coordinates as [number, number], zoom: zoom + 0.3, duration: 500 });
       });
       map.on("mouseenter", "clusters", () => (map.getCanvas().style.cursor = "pointer"));
       map.on("mouseleave", "clusters", () => (map.getCanvas().style.cursor = ""));
       map.on("render", syncMarkers);
     });
-    map.on("click", (e) => {
+    map.on("click", (e: MapMouseEvent) => {
       if ((e.originalEvent.target as HTMLElement).closest(".cg-marker")) return;
       if (!map.queryRenderedFeatures(e.point, { layers: ["clusters"] }).length) selectRef.current(null);
     });
@@ -166,6 +168,6 @@ export default function MapView({ places, selectedId, onSelect, focus }: Props) 
   );
 }
 
-function toGeo(places: Place[]): GeoJSON.FeatureCollection {
+function toGeo(places: Place[]): FeatureCollection {
   return { type: "FeatureCollection", features: places.map((p) => ({ type: "Feature", properties: { id: p.id }, geometry: { type: "Point", coordinates: [p.lng, p.lat] } })) };
 }
