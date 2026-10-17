@@ -52,7 +52,7 @@ function Experience() {
           <div className="flex items-center gap-2 md:gap-3">
             <div className="hidden items-center gap-2 pr-1 md:flex">
               <span className="grid h-11 w-11 place-items-center rounded-2xl bg-primary text-primary-foreground shadow-[var(--shadow-float)]"><Gem className="h-5 w-5" /></span>
-              <span className="font-display text-xl font-extrabold tracking-tight">Campus Gems</span>
+              <span className="font-display whitespace-nowrap text-xl font-extrabold tracking-tight">Campus Gems</span>
             </div>
             <SearchBar value={query} onChange={setQuery} results={filtered} onPick={focusPlace} />
             <div role="tablist" aria-label="View" className="flex shrink-0 rounded-full border border-border bg-card p-1 shadow-[var(--shadow-float)]">
