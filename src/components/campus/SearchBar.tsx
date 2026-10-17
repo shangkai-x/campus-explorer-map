@@ -26,7 +26,7 @@ export function SearchBar({ value, onChange, results, onPick }: Props) {
           onKeyDown={(e) => {
             if (e.key === "ArrowDown") { e.preventDefault(); setActive((a) => Math.min(a + 1, items.length - 1)); }
             if (e.key === "ArrowUp") { e.preventDefault(); setActive((a) => Math.max(a - 1, 0)); }
-            if (e.key === "Enter" && items[Math.max(active, 0)]) pick(items[Math.max(active, 0)].id);
+            if (e.key === "Enter") { const it = items[Math.max(active, 0)]; if (it) pick(it.id); }
             if (e.key === "Escape") setOpen(false);
           }} />
         {value && <button onClick={() => { onChange(""); ref.current?.focus(); }} aria-label="Clear search" className="grid h-8 w-8 place-items-center rounded-full hover:bg-secondary"><X className="h-4 w-4" /></button>}

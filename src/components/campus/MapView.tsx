@@ -65,7 +65,7 @@ export default function MapView({ places, selectedId, onSelect, focus }: Props) 
       map.on("click", "clusters", async (e: MapMouseEvent) => {
         const f = map.queryRenderedFeatures(e.point, { layers: ["clusters"] })[0];
         if (!f) return;
-        const zoom = await (map.getSource("places") as GeoJSONSource).getClusterExpansionZoom(f.properties.cluster_id);
+        const zoom = await (map.getSource("places") as GeoJSONSource).getClusterExpansionZoom(f.properties["cluster_id"]);
         map.easeTo({ center: (f.geometry as Point).coordinates as [number, number], zoom: zoom + 0.3, duration: 500 });
       });
       map.on("mouseenter", "clusters", () => (map.getCanvas().style.cursor = "pointer"));
@@ -81,8 +81,8 @@ export default function MapView({ places, selectedId, onSelect, focus }: Props) 
       if (!map.getSource("places")) return;
       const visible = new Set<string>();
       for (const f of map.querySourceFeatures("places")) {
-        if (f.properties?.cluster) continue;
-        const id = f.properties!.id as string;
+        if (f.properties?.["cluster"]) continue;
+        const id = f.properties!["id"] as string;
         if (visible.has(id)) continue;
         visible.add(id);
         if (!markers.current.has(id)) {
